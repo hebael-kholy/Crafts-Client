@@ -47,7 +47,10 @@ export class CartComponent implements OnInit {
   totalAfterDiscount:number = 0;
   newdisc:any;
   user = localStorage.getItem('user');
-  userId = this.user && JSON.parse(this.user)._id;
+  userId = this.user && JSON.parse(this.user).id;
+
+
+
 
   constructor(public route: ActivatedRoute, public myService: CartService ,public wishlistService : WishlistService) {}
   ngOnInit(): void {
@@ -55,10 +58,10 @@ export class CartComponent implements OnInit {
       next: (res: any) => {
         console.log(res);
         this.isloading = false;
-        this.data2 = res.data;
-        this.items = res.data.cartItems;
+        this.data2 = res;
+        this.items = res.cartItems;
         console.log(this.items);
-        this.cartId = res.data._id;
+        this.cartId = res.id;
         console.log(`this is cart id ${this.cartId}`);
         this.totalPrice = res.data.totalCarPrice;
 
@@ -67,7 +70,7 @@ export class CartComponent implements OnInit {
         console.log(this.totalPrice);
 
       },
-    
+
       error: (err: any) => {
         console.log(err.error.message);
 
@@ -90,7 +93,7 @@ export class CartComponent implements OnInit {
       this.newdisc = localStorage.getItem('disc');
     console.log("not")}
       this.Discountt = res.discount;
-      
+
       console.log(this.totalAfterDiscount);
       console.log(this.Discountt);
 
@@ -138,7 +141,7 @@ export class CartComponent implements OnInit {
         console.log(res);
 
         this.getCartTotal();
-        
+
 
       });
   }
@@ -189,6 +192,6 @@ export class CartComponent implements OnInit {
 
 
 
-  
+
 
 }

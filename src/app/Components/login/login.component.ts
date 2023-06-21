@@ -68,19 +68,19 @@ export class LoginComponent implements OnInit {
         if (this.userServ.isUpdated === false) {
           //if true set all data with edited name, mail
           localStorage.setItem('token', res.token);
-          localStorage.setItem('id', res.user._id);
-          localStorage.setItem('name', res.user.name);
-          localStorage.setItem('mail', res.user.email);
-          localStorage.setItem('password', res.user.password);
-          localStorage.setItem('gender', res.user.gender);
-          localStorage.setItem('image', res.user.image);
-          localStorage.setItem('user', JSON.stringify(res.user));
+          localStorage.setItem('id', res.id);
+          localStorage.setItem('name', res.userName);
+          localStorage.setItem('mail', res.email);
+          localStorage.setItem('password', res.password);
+          localStorage.setItem('gender', res.gender);
+          localStorage.setItem('image', res.image);
+          localStorage.setItem('user', JSON.stringify(res));
         } else {
           //if false, dont set the name, mail with new ones, let the old data
           localStorage.setItem('token', res.token);
-          localStorage.setItem('id', res.user._id);
-          localStorage.setItem('password', res.user.password);
-          localStorage.setItem('gender', res.user.gender);
+          localStorage.setItem('id', res.id);
+          localStorage.setItem('password', res.password);
+          localStorage.setItem('gender', res.gender);
         }
         Swal.fire('Thank You...', 'You Login Successfully', 'success');
         this.router.navigate(['/home']);

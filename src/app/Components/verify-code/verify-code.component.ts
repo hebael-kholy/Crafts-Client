@@ -59,7 +59,7 @@ export class VerifyCodeComponent implements OnInit{
 
   verify(){
   this.isLoading = true;
-    this.services.veryfyCode({code: this.ngOtpInputRef.first.currentVal}).subscribe(res=>{
+    this.services.veryfyCode({"code": this.ngOtpInputRef.first.currentVal}).subscribe(res=>{
     this.isLoading = false;
       console.log(res);
       this.router.navigate(['/newPassword']);

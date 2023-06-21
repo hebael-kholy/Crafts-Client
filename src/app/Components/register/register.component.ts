@@ -14,13 +14,19 @@ import { faCalendarWeek } from '@fortawesome/free-solid-svg-icons';
 import { LoginService } from 'src/app/Services/auth/auth.service';
 import Swal from 'sweetalert2';
 
+let one = 1;
+let zero = 0;
 export class User {
-
-  name!: string;
+  userName!: string;
   password!: string;
   email!: string;
-   gender!: number;
-   userId !:string;
+  //gender!: number;
+  //userId !:string;
+}
+
+export class wishlist {
+  createdAt!: Date;
+  userId!: string;
 }
 
 @Component({
@@ -38,12 +44,11 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder,
     private apiservice: LoginService,
     private router: Router
-
   ) {}
 
   ngOnInit(): void {
     this.userForm = this.fb.group({
-      name: [
+      userName: [
         '',
         [
           Validators.required,
@@ -63,15 +68,12 @@ export class RegisterComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(3)]],
       gender: [0, Validators.required],
     });
-
   }
 
   get username() {
     // return this.userForm.get('name');
-    return this.userForm.controls['name'].valid;
+    return this.userForm.controls['userName'].valid;
   }
-
-
 
   get email() {
     return this.userForm.get('email');
@@ -88,34 +90,42 @@ export class RegisterComponent implements OnInit {
     if (this.userForm.valid) {
       this.isLoading = true;
       console.log(this.userForm);
-      this.apiservice.createUser({
-        "username":"omar",
-        "email":"omar@gmail.com",
-        "password":"12346",
-        "gender":0
-      }).subscribe({
+      this.apiservice.createUser(this.userForm.value).subscribe({
         next: (res) => {
           console.log(res, 'data submitted');
           this.user = res.user;
           this.userForm.reset();
           this.successmsg = res.message;
           Swal.fire('Thank You...', 'You Sumitted Successfully', 'success');
-          console.log(res.user);
-          console.log(res.user.id);
-          this.user.userId = res.user.id.toString();
-          console.log(this.user.userId );
-          console.log(typeof(this.user.userId));
-
-        this.apiservice.CreatWishlist(this.user.userId).subscribe(
-          {
-            next:(res)=>{
-              console.log(res);
-            },error:(err)=>{
-              console.log("An error happened");
-            }
-          }
-        );
-        console.log();
+      console.log(typeof(res.user.id));
+  console.log(Date.now())
+          console.log(res.user.id.toString());
+          this.apiservice
+            .CreatWishlist({
+              "createdAt": new Date().toJSON(),
+              "userId": res.user.id
+            })
+            .subscribe({
+              next: (res) => {
+                console.log(res);
+              },
+              error: (err) => {
+                console.log(err.message);
+              },
+            });
+            this.apiservice
+            .CreatCart({
+              "userId": res.user.id
+            })
+            .subscribe({
+              next: (res) => {
+                console.log(res);
+              },
+              error: (err) => {
+                console.log(err.message);
+              },
+            });
+          console.log();
           this.isLoading = false;
           this.router.navigateByUrl('/login');
         },
@@ -155,4 +165,3 @@ export class RegisterComponent implements OnInit {
     this.changetype = !this.changetype;
   }
 }
-
