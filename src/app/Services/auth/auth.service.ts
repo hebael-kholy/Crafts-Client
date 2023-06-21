@@ -14,7 +14,7 @@ export class LoginService {
   onLogin(obj: any): Observable<any> {
     this.isAuthenticated = true;
     return this.httpClient.post(
-      'https://ecommerceiti-heba.onrender.com/users/login',
+      'https://localhost:7118/api/Users/Login',
       obj
     );
   }
@@ -42,34 +42,35 @@ export class LoginService {
     localStorage.removeItem('wishlistitems');
     this.router.navigate(['login']);
     // location.reload();
-
   }
 
   checkLoginStatus() {
     return localStorage.getItem('token');
   }
 
-
   resetPassword(data: any) {
     return this.httpClient.post(
-      'https://ecommerceiti-heba.onrender.com/forgetpass',
+      'https://localhost:7118/api/Users/Reset-Password',
       data
     );
   }
 
   veryfyCode(data: any) {
     return this.httpClient.post(
-      'https://ecommerceiti-heba.onrender.com/forgetpass/verify',
+      'https://localhost:7118/api/ForgetPassword/VerifyPassword',
       data
     );
   }
   changePassword(data: any) {
     return this.httpClient.put(
-      'https://ecommerceiti-heba.onrender.com/forgetpass',
+      'https://localhost:7118/api/Users/NewPassword',
       data
     );
   }
-  CreatWishlist(id:string) {
-    return this.httpClient.post('https://localhost:7118/api/WishLists',id);
+  CreatWishlist(obj: any) {
+    return this.httpClient.post('https://localhost:7118/api/WishLists', obj);
+  }
+  CreatCart(id: any) {
+    return this.httpClient.post('https://localhost:7118/api/Carts', id);
   }
 }

@@ -10,7 +10,7 @@ export class CartService {
   constructor(public myClient: HttpClient) {}
 
   getCartitems(id:any) {
-    return this.myClient.get(`https://ecommerceiti-heba.onrender.com/users/${id}/cart`);
+    return this.myClient.get(`https://localhost:7118/WithCartItems`,id);
   }
 
   removeitemfromcart(id1:any,id2:any){
