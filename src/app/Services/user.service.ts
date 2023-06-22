@@ -35,10 +35,10 @@ export class UserService {
   }
 
   //user orders
-  orderUrl= "https://ecommerceiti-heba.onrender.com/order/user";
+  orderUrl= "https://localhost:7118/api/Orders";
   deleteOrderUrl = "https://ecommerceiti-heba.onrender.com/order";
-  getAccept(id:any){
-    return this.myUser.get(`${this.orderUrl}/${id}?status=accepted`);
+  getByStatus(id:any, status:any){
+    return this.myUser.get(`${this.orderUrl}/${id}/${status}`);
   }
   getPending(id:any){
     return this.myUser.get(`${this.orderUrl}/${id}?status=pending`);
