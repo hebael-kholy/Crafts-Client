@@ -12,6 +12,7 @@ export class SideOrderComponent implements OnInit {
   imagePath: any;
   idUser:any;
   user:any;
+  orders:any;
   acceptorders:any;
   pendingOrders:any;
   rejectOrders:any;
@@ -38,62 +39,80 @@ export class SideOrderComponent implements OnInit {
       },
     });
     //call functions get orders
-    this.getAccept();
-    this.isloading = true;
-    this.getPending();
-    this.isloading = true;
-    this.getReject();
+    // this.getAccept();
+    // this.isloading = true;
+    // this.getPending();
+    // this.isloading = true;
+    // this.getReject();
     //end ngOnIt
   }
-  //function get accepting orders
-  getAccept(){
-    this.myService.getByStatus(this.idUser, 1).subscribe({
+
+  filterByStatus(e:any){
+    console.log(e.target.value);
+    this.myService.getByStatus(this.idUser, e.target.value).subscribe({
       next:(res)=>{
-        this.acceptorders = res;
-         console.log(res);
         this.isloading = false;
+        this.orders = res;
+        console.log(this.orders);
         // console.log(this.data);
       },
       error:(err)=>{},
     });
   }
-  // function get pending orders
-  getPending(){
-    this.myService.getByStatus(this.idUser, 0).subscribe({
-      next:(res)=>{
-        this.pendingOrders = res;
 
-        console.log(res);
 
-       this.isloading = false;
-       console.log("this data pending",this.pendingOrders);
-      },
-      error:(err)=>{},
-    });
-  }
-  //function get rejected orders
-  getReject(){
-    this.myService.getByStatus(this.idUser , 2).subscribe({
-      next:(res)=>{
-        this.rejectOrders = res;
 
-        console.log(res);
-       this.isloading = false;
-      //  console.log(this.dataReject);
-      },
-      error:(err)=>{},
-    });
-  }
-  // functions to change the status when click on drop down box
-  accepted(){
-    this.status = 1;
-  }
-  pending(){
-    this.status = 0;
-  }
-  rejected(){
-    this.status =2;
-  }
+
+  // //function get accepting orders
+  // getAccept(){
+  //   this.myService.getByStatus(this.idUser, 1).subscribe({
+  //     next:(res)=>{
+  //       this.acceptorders = res;
+  //        console.log(res);
+  //       this.isloading = false;
+  //       // console.log(this.data);
+  //     },
+  //     error:(err)=>{},
+  //   });
+  // }
+  // // function get pending orders
+  // getPending(){
+  //   console.log("get pending called");
+  //   this.myService.getByStatus(this.idUser, 0).subscribe({
+  //     next:(res)=>{
+  //       this.pendingOrders = res;
+
+  //       console.log(res);
+
+  //      this.isloading = false;
+  //      console.log("this data pending",this.pendingOrders);
+  //     },
+  //     error:(err)=>{},
+  //   });
+  // }
+  // //function get rejected orders
+  // getReject(){
+  //   this.myService.getByStatus(this.idUser , 2).subscribe({
+  //     next:(res)=>{
+  //       this.rejectOrders = res;
+
+  //       console.log(res);
+  //      this.isloading = false;
+  //     //  console.log(this.dataReject);
+  //     },
+  //     error:(err)=>{},
+  //   });
+  // }
+  // // functions to change the status when click on drop down box
+  // accepted(){
+  //   this.status = 1;
+  // }
+  // pending(){
+  //   this.status = 0;
+  // }
+  // rejected(){
+  //   this.status =2;
+  // }
 
   // delete pending orders
   deleteOrder(event:any,id:any){
@@ -102,10 +121,10 @@ export class SideOrderComponent implements OnInit {
       { next:(req)=>{
         console.log(req);
         this.deleteLoading = false;
-        this.getPending();
+       // this.getPending();
 
         Swal.fire('Deleted successfully ', 'Updated picture', 'success');
-        this.getReject();
+       // this.getReject();
 
       },
       error:(err)=>{console.log(err)}}
