@@ -6,9 +6,9 @@ import { Injectable } from '@angular/core';
 })
 export class UserService {
   constructor(private myUser: HttpClient) {}
-  baseUrl = 'https://ecommerceiti-heba.onrender.com/users';
-  updateUrl = 'https://ecommerceiti-heba.onrender.com/users/update';
-  imageUrl = 'https://ecommerceiti-heba.onrender.com/users/images';
+  baseUrl = 'https://localhost:7118/api/Users';
+  updateUrl = 'https://localhost:7118/api/Users/update';
+  imageUrl = 'https://localhost:7118/api/Users/image';
 
   getOneUser(id: any) {
     return this.myUser.get(`${this.baseUrl}/${id}`);

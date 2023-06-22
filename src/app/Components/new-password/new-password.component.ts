@@ -27,14 +27,14 @@ export class NewPasswordComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       password: ['', Validators.required],
-      //newpassword: ['', Validators.required],
+      newpassword: ['', Validators.required],
     });
   }
   // user = localStorage.getItem('email');
   // useremail = this.user && JSON.parse(this.user).email;
   resetForm: any = {
     email: localStorage.getItem('email'),
-    //newpassword: '',
+    newpassword: '',
   };
 
   isLoading = false;

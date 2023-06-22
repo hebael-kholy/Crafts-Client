@@ -67,13 +67,19 @@ export class LoginComponent implements OnInit {
         console.log('res', res);
         if (this.userServ.isUpdated === false) {
           //if true set all data with edited name, mail
+          if(res.user.gender == 0) {
+          localStorage.setItem('gender', "Male");
+          }
+          else{
+          localStorage.setItem('gender', "Female");
+          }
           localStorage.setItem('token', res.token);
-          localStorage.setItem('id', res.id);
-          localStorage.setItem('name', res.userName);
-          localStorage.setItem('mail', res.email);
-          localStorage.setItem('password', res.password);
-          localStorage.setItem('gender', res.gender);
-          localStorage.setItem('image', res.image);
+          localStorage.setItem('id', res.user.id);
+          localStorage.setItem('name', res.user.userName);
+          localStorage.setItem('mail', res.user.email);
+          localStorage.setItem('password', res.user.password);
+          // localStorage.setItem('gender', res.user.gender);
+          localStorage.setItem('image', res.user.image);
           localStorage.setItem('user', JSON.stringify(res));
         } else {
           //if false, dont set the name, mail with new ones, let the old data
