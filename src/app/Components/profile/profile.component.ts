@@ -72,7 +72,7 @@ export class ProfileComponent implements OnInit {
       next: (res) => {
         this.user = res;
         console.log(this.user);
-        console.log(this.user.data.name);
+        console.log(this.user.name);
         // console.log(this.user.data[0].gender);
       },
       error(err) {
@@ -129,12 +129,13 @@ export class ProfileComponent implements OnInit {
     this.myService.updateUserImage(this.idUser, formData).subscribe(
       (res: any) => {
         console.log(res);
-        this.imagePath = res.user.image;
+        this.imagePath = res.image;
         this.isLoading = false;
         localStorage.setItem('image', this.imagePath);
         // location.reload();
       },
       (err) => {
+        console.log(err);
         Swal.fire('Sorry....', 'please select img to change', 'error');
         this.isLoading = false;
       }

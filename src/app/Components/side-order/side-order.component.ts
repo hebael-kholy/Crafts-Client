@@ -15,7 +15,7 @@ export class SideOrderComponent implements OnInit {
   acceptorders:any;
   pendingOrders:any;
   rejectOrders:any;
-  status = 'accepted';
+  status = 1;
   title :any;
   isloading = true;
   deleteLoading = false;
@@ -47,7 +47,7 @@ export class SideOrderComponent implements OnInit {
   }
   //function get accepting orders
   getAccept(){
-    this.myService.getAccept(this.idUser).subscribe({
+    this.myService.getByStatus(this.idUser, 1).subscribe({
       next:(res)=>{
         this.acceptorders = res;
          console.log(res);
@@ -57,9 +57,9 @@ export class SideOrderComponent implements OnInit {
       error:(err)=>{},
     });
   }
-  // function get pending orders 
+  // function get pending orders
   getPending(){
-    this.myService.getPending(this.idUser).subscribe({
+    this.myService.getByStatus(this.idUser, 0).subscribe({
       next:(res)=>{
         this.pendingOrders = res;
 
@@ -73,7 +73,7 @@ export class SideOrderComponent implements OnInit {
   }
   //function get rejected orders
   getReject(){
-    this.myService.getReject(this.idUser).subscribe({
+    this.myService.getByStatus(this.idUser , 2).subscribe({
       next:(res)=>{
         this.rejectOrders = res;
 
@@ -86,14 +86,13 @@ export class SideOrderComponent implements OnInit {
   }
   // functions to change the status when click on drop down box
   accepted(){
-    this.status = 'accepted';
+    this.status = 1;
   }
   pending(){
-    this.status = 'pending';
-
+    this.status = 0;
   }
   rejected(){
-    this.status ='rejected';
+    this.status =2;
   }
 
   // delete pending orders
@@ -107,7 +106,7 @@ export class SideOrderComponent implements OnInit {
 
         Swal.fire('Deleted successfully ', 'Updated picture', 'success');
         this.getReject();
-      
+
       },
       error:(err)=>{console.log(err)}}
       );
