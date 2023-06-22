@@ -20,7 +20,7 @@ export class User {
   userName!: string;
   password!: string;
   email!: string;
-  //gender!: number;
+  gender!: number;
   //userId !:string;
 }
 
@@ -40,6 +40,10 @@ export class RegisterComponent implements OnInit {
   successmsg: any;
   user: User = new User();
   userForm!: FormGroup;
+  gender = [
+    {id:0, value:'male'},
+    {id:1, value:'female'}
+  ]
   constructor(
     private fb: FormBuilder,
     private apiservice: LoginService,
@@ -88,9 +92,16 @@ export class RegisterComponent implements OnInit {
     }
 
     if (this.userForm.valid) {
+      const data = {
+        UserName: this.userForm.controls['userName'].value,
+        Email: this.userForm.controls['email'].value,
+        Password: this.userForm.controls['password'].value,
+        Gender: +this.userForm.controls['gender'].value,
+      };
+
       this.isLoading = true;
-      console.log(this.userForm);
-      this.apiservice.createUser(this.userForm.value).subscribe({
+      console.log(data);
+      this.apiservice.createUser(data).subscribe({
         next: (res) => {
           console.log(res, 'data submitted');
           this.user = res.user;
