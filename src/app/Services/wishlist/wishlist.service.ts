@@ -8,12 +8,19 @@ export class WishlistService {
 
   constructor(public myClient: HttpClient) {}
 
-  
+
   getWishlistitems(id:any) {
     return this.myClient.get(`https://ecommerceiti-heba.onrender.com/wishlist/${id}`);
   }
 
-  removeitemfromWishlist(id1:any,id2:any){
-    return this.myClient.delete(`https://ecommerceiti-heba.onrender.com/wishlist/${id1}/${id2}`);
+  getUserWishList(id:any){
+    return this.myClient.get(`https://localhost:7118/api/WishLists/User?userId=${id}`);
   }
+
+  removeitemfromWishlist(WId:any,PId:any){
+    return this.myClient.delete(`https://localhost:7118/api/WishLists/${WId}/${PId}`);
+  }
+
+
+
 }

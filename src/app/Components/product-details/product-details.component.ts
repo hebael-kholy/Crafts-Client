@@ -45,7 +45,7 @@ export class ProductDetailsComponent implements OnInit {
   icon2 = faHeart;
   addedtowishlist: boolean = false;
   user = localStorage.getItem('user');
-  userId = this.user && JSON.parse(this.user)._id;
+  userId = this.user && JSON.parse(this.user).user.id;//
   cartitems: any;
   wishlistitems: any;
   username: any;
@@ -59,7 +59,8 @@ export class ProductDetailsComponent implements OnInit {
   Rid:any;
  Rimg:any;
  isloading = true;
-
+  wishListResponse:any;
+  WishListID:any;
 
 
 
@@ -94,12 +95,21 @@ export class ProductDetailsComponent implements OnInit {
           this.comments=this.commentss.data;
 
         })
-
       },
       error(err) {
         console.log(err);
       },
     });
+
+    this.wishlistService.getUserWishList(this.userId).subscribe({
+      next:(res)=>{
+      console.log(res);
+      this.wishListResponse=res;
+     // console.log(this.wishListResponse.id);
+      this.WishListID=this.wishListResponse.id;
+    },error(err){
+      console.log(err);
+    }})
   }
 
 
@@ -127,20 +137,33 @@ export class ProductDetailsComponent implements OnInit {
 
   AddToWishlist() {
     console.log(this.product);
-
+    console.log(this.product.id)
     console.log(`this is userid ${this.userId}`);
+    console.log(this.wishListResponse);
+    console.log(this.wishListResponse.id);
+
     console.log(this.ID);
-    let wishlistitem: WihlistItem = {
+    let wishlistitem: any = {
       productId: this.ID,
     };
+    // let updateditem: any = {
+    //   quantity: this.value,
+    // };
+    //wishlistitem is productId
     console.log(typeof wishlistitem);
     console.log(wishlistitem);
-    this.myService.addtoWishlist(this.userId, wishlistitem).subscribe((res) => {
+    console.log(this.ID);//product id
+    //updateditem
+    this.myService.addtoWishlist(this.WishListID,wishlistitem).subscribe({
+      next:(res) => {
       console.log(res);
       this.addedtowishlist = true;
       this.wishlistitems = Number(localStorage.getItem('wishlistitems'));
       localStorage.setItem('wishlistitems', this.wishlistitems + 1);
-    });
+    },error:(err)=>{
+      console.log(err);
+    }
+  });
   }
 
   AddReview(){
