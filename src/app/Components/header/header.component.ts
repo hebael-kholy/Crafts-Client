@@ -37,15 +37,16 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log("Hello")
     let user = localStorage.getItem('user');
     let userId = user && JSON.parse(user).user.id;
-   // JSON.parse(localStorage.getItem('user')).user.id
     this.cartService.getCartitems(userId).subscribe({
       next: (res: any) => {
         this.items = res;
-        this.totalitems = this.items.numOfItem;
+        this.totalitems = this.items.cartItems.length;
         console.log(this.totalitems);
         localStorage.setItem('cartitems', this.totalitems.toString());
+        console.log("hala")
       },
       error: (err) => {
         console.log(err);
