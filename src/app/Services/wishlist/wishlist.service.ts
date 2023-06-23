@@ -18,7 +18,7 @@ export class WishlistService {
   }
 
   removeitemfromWishlist(WId:any,PId:any){
-    return this.myClient.delete(`https://localhost:7118/api/WishLists/${WId}/${PId}`);
+    return this.myClient.delete(`https://localhost:7118/api/WishLists/${PId}/${WId}`);
   }
 
 
