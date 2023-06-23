@@ -21,17 +21,10 @@ export class AllProductsComponent implements OnInit {
   isLoading = false;
   isLoadingg = false;
 
-
-
-
   constructor(public myService: ProductsService, public route: ActivatedRoute) {}
-
 
   ngOnInit(): void {
     this.getProducts();
-
-
-
   }
 
   getProducts() {
@@ -44,31 +37,37 @@ export class AllProductsComponent implements OnInit {
       this.totalRecords = data.length;
     })
   }
-  filter(category:string){
-    this.filterCategory = this.products.filter((a:any)=>{
-      console.log(a);
-      console.log(a.category.name);
-      if(a.category.name === category || category == ''){
-        return a;
-      }
-    })
 
 
-
+  filter(category:any){
+    console.log(category);
+    console.log(typeof category);
+    this.myService.getProductsbyCategory("Candles").subscribe({
+      next:(res)=>{
+        console.log(res);
+        this.filterCategory=res;
+        this.filterCategory = this.products.filter((a:any)=>{
+          console.log(a);             //product
+          console.log(a.categoryName);//categoryName
+          if(a.categoryName === category || category == ''){
+            return a;
+          }
+        })
+        console.log(this.filterCategory.products);
+      },error:(err)=>{
+        console.log(err);
+      }})
   }
+
   onclick(){
-
     console.log("hala");
-     this.isLoadingg= true;
-
+    this.isLoadingg= true;
   }
 
   clickk(){
-
     console.log("hala");
     setInterval(()=>{
-
     },1000)
-     this.isLoadingg= false;
+    this.isLoadingg= false;
   }
 }

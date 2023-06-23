@@ -18,14 +18,16 @@ export class ProductsService {
     return this.myClient.get('https://localhost:7118/api/Products');
   }
 
-  getProductDetails(id: any) {
+  getProductsbyCategory(title:any){
+    return this.myClient.get(`https://localhost:7118/CategoryByTitle?title=${title}`)
+  }
 
+  getProductDetails(id: any) {
     return this.myClient.get(`https://localhost:7118/api/Products/${id}`);
   }
 
   getproductsByCategory(id:any){
     return this.myClient.get(`https://ecommerceiti-heba.onrender.com/category/${id}/product`);
-
   }
 
   addtocart(data: CartItem) {
@@ -39,15 +41,14 @@ addtoWishlist(WId:any,PId:any){
   return this.myClient.post(`https://localhost:7118/WishListProduct/${WId}`,PId);
 }
 
-
   addReview(data:any){
     return this.myClient.post(`https://ecommerceiti-heba.onrender.com/review`,data)
-
   }
 
   getReview(id:any){
     return this.myClient.get(`https://ecommerceiti-heba.onrender.com/product/review/${id}?limit=100`)
   }
+
   deleteReview(id:any){
     return this.myClient.delete(`https://ecommerceiti-heba.onrender.com/review/${id}`)
   }
