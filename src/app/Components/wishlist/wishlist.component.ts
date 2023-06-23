@@ -11,26 +11,30 @@ export class WishlistComponent implements OnInit {
   items: any[] = [];
   itemId: any;
   user = localStorage.getItem('user');
-  userId = this.user && JSON.parse(this.user)._id;
+  userId = this.user && JSON.parse(this.user).user.id;
+  wishListId:any;
   wishlistitems: any;
   constructor(
     public route: ActivatedRoute,
     public myService: WishlistService
   ) {}
   ngOnInit(): void {
-    this.myService.getWishlistitems(this.userId).subscribe((res: any) => {
+    this.myService.getUserWishList(this.userId).subscribe((res: any) => {
       console.log(res);
-      this.items = res.data;
+      this.items = res.products;
+      this.wishListId=res.id;
+      console.log(this.wishListId)
       console.log(this.items);
     });
   }
 
   removeItem(item: any) {
-    this.itemId = item._id;
+    this.itemId = item.id;
     console.log(`this id for item ${this.itemId}`);
     console.log(`this id for user ${this.userId}`);
+    console.log(`this id for wishlistId ${this.wishListId}`);
     this.myService
-      .removeitemfromWishlist(this.userId, this.itemId)
+      .removeitemfromWishlist(this.itemId, this.wishListId)
       .subscribe((res) => {
         this.items.splice(this.items.indexOf(item), 1);
         console.log(res);

@@ -38,7 +38,8 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     let user = localStorage.getItem('user');
-    let userId = user && JSON.parse(user).id;
+    let userId = user && JSON.parse(user).user.id;
+   // JSON.parse(localStorage.getItem('user')).user.id
     this.cartService.getCartitems(userId).subscribe({
       next: (res: any) => {
         this.items = res;
@@ -50,10 +51,13 @@ export class HeaderComponent implements OnInit {
         console.log(err);
       },
     });
-    this.wishlistService.getWishlistitems(userId).subscribe({
+    console.log(userId);
+    this.wishlistService.getUserWishList(userId).subscribe({
       next: (res: any) => {
+        console.log(res);
         this.items2 = res;
-        this.totalitems2 = this.items2.count;
+        this.totalitems2 = res.products.length;
+        console.log(this.totalitems2);
         localStorage.setItem('wishlistitems', this.totalitems2.toString());
       },
       error: (err) => {
@@ -65,7 +69,7 @@ export class HeaderComponent implements OnInit {
   ngAfterViewChecked(): void {
     this.image = localStorage.getItem('image');
     this.username = localStorage.getItem('name');
-    this.cartitems = localStorage.getItem('cartitems');
+    this.cartitems = localStorage.getItem('cartitems'); //
     this.wishlistitems = localStorage.getItem('wishlistitems');
     this.cdRef.detectChanges();
   }

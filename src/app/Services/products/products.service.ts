@@ -34,9 +34,9 @@ export class ProductsService {
       data
     );
   }
-  addtoWishlist(id:any, data:WihlistItem){
-    return this.myClient.post(`https://ecommerceiti-heba.onrender.com/wishlist/${id}`,data);
 
+addtoWishlist(WId:any,PId:any){
+  return this.myClient.post(`https://localhost:7118/WishListProduct/${WId}`,PId);
 }
 
 
