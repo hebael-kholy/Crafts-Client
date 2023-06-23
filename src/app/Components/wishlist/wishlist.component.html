@@ -1,5 +1,5 @@
 
-<ng-container> 
+<ng-container>
     <section>
     <div class="container mt-3">
         <div class="card-table">
@@ -10,7 +10,7 @@
                             <th scope = "col">Pr.No</th>
                             <th scope = "col">Product Image</th>
                             <th scope = "col">Product Name</th>
-                            
+
                             <th scope = "col">Description</th>
                             <th scope = "col">Price</th>
 
@@ -22,7 +22,7 @@
                             <td scope = "row">{{i+1}}</td>
 
 
-                            
+
                             <td><img style="width: 200px ;height:200px; " src="{{item.image}} " alt=""></td>
                             <td style="vertical-align: middle;">{{item.title}}</td>
                             <td style="width: 25%;">{{item.description}}</td>
@@ -30,12 +30,12 @@
                             <th style="width: 12%;">{{item.price}} EGP</th>
 
                             <td>
-                                <i  (click)="removeItem(item)" class="bi bi-trash"></i>
+                                <i (click)="removeItem(item)" class="bi bi-trash"></i>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="5"></td>
-                            <td><button routerLink="/products" class="btn-shop btn">Shop More</button></td>                           
+                            <td><button routerLink="/products" class="btn-shop btn">Shop More</button></td>
 
                         </tr>
                     </tbody>

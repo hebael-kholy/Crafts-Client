@@ -29,6 +29,7 @@ export class WishlistComponent implements OnInit {
   }
 
   removeItem(item: any) {
+    console.log(item.id);
     this.itemId = item.id;
     console.log(`this id for item ${this.itemId}`);
     console.log(`this id for user ${this.userId}`);
