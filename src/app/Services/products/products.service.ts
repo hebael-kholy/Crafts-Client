@@ -28,9 +28,9 @@ export class ProductsService {
 
   }
 
-  addtocart(id: any, data: CartItem) {
+  addtocart(data: CartItem) {
     return this.myClient.post(
-      `https://ecommerceiti-heba.onrender.com/cart/${id}`,
+      `https://localhost:7118/api/CartItems`,
       data
     );
   }

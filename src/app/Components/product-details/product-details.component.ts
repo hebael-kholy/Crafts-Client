@@ -21,8 +21,8 @@ export class Review {
 }
 
 export class CartItem {
-  product!: number;
-  color!: string;
+  CartId!:number; 
+  productId!:number;
 }
 export class WihlistItem {
   productId!: number;
@@ -40,12 +40,13 @@ export class ProductDetailsComponent implements OnInit {
   productt:any;
   icon = faStar;
   iconCart = faCartShopping;
-  cart: any[] = [];
   categoryId: any;
   icon2 = faHeart;
   addedtowishlist: boolean = false;
   user = localStorage.getItem('user');
+
   userId = this.user && JSON.parse(this.user).user.id;//
+
   cartitems: any;
   wishlistitems: any;
   username: any;
@@ -59,9 +60,12 @@ export class ProductDetailsComponent implements OnInit {
   Rid:any;
  Rimg:any;
  isloading = true;
+
   wishListResponse:any;
   WishListID:any;
 
+ cart = localStorage.getItem('cart');
+ cartId = this.cart && JSON.parse(this.cart).id;
 
 
   constructor(
@@ -123,13 +127,15 @@ export class ProductDetailsComponent implements OnInit {
     console.log(this.product);
     console.log(`this is userid ${this.userId}`);
     console.log(this.ID);
+    console.log(this.cartId);
     let cartitem: CartItem = {
-      product: this.ID,
-      color: 'purple',
+      CartId: this.cartId,
+      productId:this.ID,
+
     };
     console.log(typeof cartitem);
     console.log(cartitem);
-    this.myService.addtocart(this.userId, cartitem).subscribe((res: any) => {
+    this.myService.addtocart(cartitem).subscribe((res: any) => {
       this.cartitems = Number(localStorage.getItem('cartitems'));
       localStorage.setItem('cartitems', this.cartitems + 1);
     });

@@ -47,10 +47,7 @@ export class CartComponent implements OnInit {
   totalAfterDiscount:number = 0;
   newdisc:any;
   user = localStorage.getItem('user');
-  userId = this.user && JSON.parse(this.user).id;
-
-
-
+  userId = this.user && JSON.parse(this.user).user.id;
 
   constructor(public route: ActivatedRoute, public myService: CartService ,public wishlistService : WishlistService) {}
   ngOnInit(): void {
@@ -63,12 +60,13 @@ export class CartComponent implements OnInit {
         console.log(this.items);
         this.cartId = res.id;
         console.log(`this is cart id ${this.cartId}`);
-        this.totalPrice = res.data.totalCarPrice;
+        localStorage.setItem('cartId', this.cartId);  
+        localStorage.setItem('cart', JSON.stringify(res));  
 
+        this.totalPrice = res.totalPrice;
         this.totalAfterDiscount = this.totalPrice;
         this.newdisc = 0;
         console.log(this.totalPrice);
-
       },
 
       error: (err: any) => {
@@ -81,7 +79,7 @@ export class CartComponent implements OnInit {
   getCartTotal() {
     this.myService.getCartitems(this.userId).subscribe((res: any) => {
       console.log(res);
-      this.totalPrice = res.data.totalCarPrice;
+      this.totalPrice = res.totalPrice;
       //console.log(this.coupon_value);
  if(this.coupon_value === ""
  ){
@@ -128,7 +126,7 @@ export class CartComponent implements OnInit {
   }
 
   updateItemQuantity(item: any) {
-    this.itemId = item._id;
+    this.itemId = item.id;
     let updateditem: any = {
       quantity: this.value,
     };
@@ -136,7 +134,7 @@ export class CartComponent implements OnInit {
     console.log(`this id for item ${this.itemId}`);
     console.log(`this id for user ${this.userId}`);
     this.myService
-      .UpdateQuantity(this.userId, this.itemId, updateditem)
+      .UpdateQuantity(this.itemId, updateditem)
       .subscribe((res) => {
         console.log(res);
 
