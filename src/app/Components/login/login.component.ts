@@ -80,6 +80,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('password', res.user.password);
           // localStorage.setItem('gender', res.user.gender);
           localStorage.setItem('image', res.user.image);
+          localStorage.setItem('cart', res.user.cart);  
           localStorage.setItem('user', JSON.stringify(res));
         } else {
           //if false, dont set the name, mail with new ones, let the old data

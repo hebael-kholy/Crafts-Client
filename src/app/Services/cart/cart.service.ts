@@ -10,7 +10,7 @@ export class CartService {
   constructor(public myClient: HttpClient) {}
 
   getCartitems(id:any) {
-    return this.myClient.get(`https://localhost:7118/WithCartItems`,id);
+    return this.myClient.get(`https://localhost:7118/WithCartItems?id=${id}`);
   }
 
   removeitemfromcart(id1:any,id2:any){
@@ -21,8 +21,8 @@ export class CartService {
     return this.myClient.delete(`https://ecommerceiti-heba.onrender.com/users/${id}/cart/clear`);
   }
 
-  UpdateQuantity(id1:any,id2:any, data:any){
-    return this.myClient.put(`https://ecommerceiti-heba.onrender.com/users/${id1}/cart/update/${id2}`, data);
+  UpdateQuantity(id:any, data:any){
+    return this.myClient.put(`https://localhost:7118/api/CartItems/${id}`, data);
   }
 
   createOrder(id1:any,id2:any,data:Order){

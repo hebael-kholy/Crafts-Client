@@ -18,17 +18,17 @@
               <div class="col-lg-5 ">
                 <div class="me-lg-5">
                   <div class="d-flex">
-                    <img src="{{item.product.image}}" class="border rounded me-3" style="width: 96px; height: 96px;" />
+                    <img src="{{item.image}}" class="border rounded me-3" style="width: 96px; height: 96px;" />
                     <div class="">
-                      <a href="#" class="nav-link">{{item.product.description}}</a>
-                      <p class="text-muted">{{item.product.title}}</p>
+                      <a href="#" class="nav-link">{{item.description}}</a>
+                      <p class="text-muted">{{item.title}}</p>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap">
                 <div class="">
-                  <select style="width: 100px;" class="form-select me-4" (change)= "updateItemQuantity(item)" [(ngModel)]="value" [(ngModel)] = "item.quantitiy" >
+                  <select style="width: 100px;" class="form-select me-4" (change)= "updateItemQuantity(item)" [(ngModel)]="value" [(ngModel)] = "item.quantity" >
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
