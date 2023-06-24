@@ -30,22 +30,25 @@ export class AllProductsComponent implements OnInit {
   getProducts() {
     this.isLoading = true;
     this.myService.getAllProducts().subscribe((data: any) => {
-      console.log(data);
       this.isLoading = false;
       this.products = data;
       this.filterCategory = data;
+      console.log(this.filterCategory)
       this.totalRecords = data.length;
     })
   }
 
-
   filter(category:any){
     console.log(category);
     console.log(typeof category);
-    this.myService.getProductsbyCategory("Candles").subscribe({
+    if(category==''){
+      this.getProducts();
+    }
+    this.myService.getProductsbyCategory(category).subscribe({
       next:(res)=>{
         console.log(res);
         this.filterCategory=res;
+        console.log(this.filterCategory);
         this.filterCategory = this.products.filter((a:any)=>{
           console.log(a);             //product
           console.log(a.categoryName);//categoryName

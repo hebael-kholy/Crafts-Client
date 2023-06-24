@@ -41,7 +41,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     let user = localStorage.getItem('user');
+    let userParsed = user && JSON.parse(user).user;
+
     let userId = user && JSON.parse(user).user.id;
+    console.log(userParsed);
     this.cartService.getCartitems(userId).subscribe({
       next: (res: any) => {
         this.items = res;

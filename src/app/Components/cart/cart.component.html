@@ -1,6 +1,3 @@
-
-
-
 <!-- cart + summary -->
 <section >
   <!-- <div class="text-center" style="margin:auto; transform: translate(-50%,-50%); left:50%; top:50%; position: absolute;">
@@ -13,7 +10,7 @@
         <div class="card border shadow-0">
           <div class="m-4">
             <h4 class="card-title mb-4">Your shopping cart</h4>
-        
+
             <div class="row gy-3 mb-4" *ngFor = "let item of items">
               <div class="col-lg-5 ">
                 <div class="me-lg-5">
@@ -67,7 +64,7 @@
               <div class="form-group">
                 <label class="form-label">Have coupon?</label>
                 <div class="input-group">
-                  <input type="text" class="form-control border" name="" placeholder="Coupon code"  [(ngModel)]="coupon_value" [ngModelOptions]="{standalone: true}" />
+                  <input type="text" class="form-control border" name="" placeholder="Coupon code" [(ngModel)]="coupon_valueAdded" [ngModelOptions]="{standalone: true}" />
                   <button  (click) = "apply()" class="btn btn-light border">Apply</button>
                 </div>
               </div>
@@ -82,11 +79,11 @@
             </div>
             <div class="d-flex justify-content-between">
               <p class="mb-2">Discount:</p>
-              <p class="mb-2 text-success">-{{newdisc}} EGP</p>
+              <p class="mb-2 text-success">-{{coupon_discount}}%</p>
             </div>
             <div class="d-flex justify-content-between">
               <p class="mb-2">TAX:</p>
-              <p class="mb-2">14.00EGP</p>
+              <p class="mb-2">{{Tax}}EGP</p>
             </div>
             <hr />
             <div class="d-flex justify-content-between">
@@ -107,7 +104,3 @@
     </div>
   </div>
 </section>
-
-
-
-

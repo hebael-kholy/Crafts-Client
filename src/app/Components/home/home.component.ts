@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
   ) {}
   ngOnInit() {
     let user = localStorage.getItem('user');
-    let userId = user && JSON.parse(user)._id;
+    let userId = user && JSON.parse(user).user.id;
     this.cartService.getCartitems(userId).subscribe({
       next: (res: any) => {
         this.items = res;

@@ -99,7 +99,7 @@ export class LoginComponent implements OnInit {
         this.isLoading = false;
       }
     );
-
+      console.log(localStorage.getItem('cart'));
   }
 
   visible: boolean = true;
