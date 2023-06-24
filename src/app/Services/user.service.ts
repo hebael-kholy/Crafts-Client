@@ -6,9 +6,9 @@ import { Injectable } from '@angular/core';
 })
 export class UserService {
   constructor(private myUser: HttpClient) {}
-  baseUrl = 'https://localhost:7118/api/Users';
-  updateUrl = 'https://localhost:7118/api/Users/update';
-  imageUrl = 'https://localhost:7118/api/Users/image';
+  baseUrl = 'https://craftsapp.azurewebsites.net/api/Users';
+  updateUrl = 'https://craftsapp.azurewebsites.net/api/Users/update';
+  imageUrl = 'https://craftsapp.azurewebsites.net/api/Users/image';
 
   getOneUser(id: any) {
     return this.myUser.get(`${this.baseUrl}/${id}`);
@@ -35,8 +35,8 @@ export class UserService {
   }
 
   //user orders
-  orderUrl= "https://localhost:7118/api/Orders";
-  deleteOrderUrl = "https://ecommerceiti-heba.onrender.com/order";
+  orderUrl= "https://craftsapp.azurewebsites.net/api/Orders";
+  deleteOrderUrl = "https://craftsapp.azurewebsites.net/order";
   getByStatus(id:any, status:any){
     return this.myUser.get(`${this.orderUrl}/${id}/${status}`);
   }

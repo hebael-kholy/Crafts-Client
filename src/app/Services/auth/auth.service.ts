@@ -14,14 +14,14 @@ export class LoginService {
   onLogin(obj: any): Observable<any> {
     this.isAuthenticated = true;
     return this.httpClient.post(
-      'https://localhost:7118/api/Users/Login',
+      'https://craftsapp.azurewebsites.net/api/Users/Login',
       obj
     );
   }
 
   createUser(user: any): Observable<any> {
     return this.httpClient.post(
-      'https://localhost:7118/api/Users/Register',
+      'https://craftsapp.azurewebsites.net/api/Users/Register',
       user
     );
   }
@@ -50,27 +50,27 @@ export class LoginService {
 
   resetPassword(data: any) {
     return this.httpClient.post(
-      'https://localhost:7118/api/Users/Reset-Password',
+      'https://craftsapp.azurewebsites.net/api/Users/Reset-Password',
       data
     );
   }
 
   veryfyCode(data: any) {
     return this.httpClient.post(
-      'https://localhost:7118/api/ForgetPassword/VerifyPassword',
+      'https://craftsapp.azurewebsites.net/api/ForgetPassword/VerifyPassword',
       data
     );
   }
   changePassword(data: any) {
     return this.httpClient.put(
-      'https://localhost:7118/api/Users/NewPassword',
+      'https://craftsapp.azurewebsites.net/api/Users/NewPassword',
       data
     );
   }
   CreatWishlist(obj: any) {
-    return this.httpClient.post('https://localhost:7118/api/WishLists', obj);
+    return this.httpClient.post('https://craftsapp.azurewebsites.net/api/WishLists', obj);
   }
   CreatCart(id: any) {
-    return this.httpClient.post('https://localhost:7118/api/Carts', id);
+    return this.httpClient.post('https://craftsapp.azurewebsites.net/api/Carts', id);
   }
 }

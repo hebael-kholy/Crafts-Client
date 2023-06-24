@@ -26,10 +26,11 @@
               <div class="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap">
                 <div class="">
                   <select style="width: 100px;" class="form-select me-4" (change)= "updateItemQuantity(item)" [(ngModel)]="value" [(ngModel)] = "item.quantity" >
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
+                    <!-- <select style="width: 100px;" class="form-select me-4"  (change)= "updateItemQuantity(item)" [(ngModel)]="selectedvalue"> -->
+                    <option value="1">1</option>
+                    <option value="2" >2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
                   </select>
                 </div>
                 <div class="">
@@ -65,7 +66,7 @@
                 <label class="form-label">Have coupon?</label>
                 <div class="input-group">
                   <input type="text" class="form-control border" name="" placeholder="Coupon code" [(ngModel)]="coupon_valueAdded" [ngModelOptions]="{standalone: true}" />
-                  <button  (click) = "apply()" class="btn btn-light border">Apply</button>
+                  <button  (click) = "apply()" class="btn btn-light border rounded">Apply</button>
                 </div>
               </div>
             </form>
@@ -94,7 +95,8 @@
 
             <div class="mt-3">
               <a (click) = "AddOrder()" class="btn btn-success w-100 shadow-0 mb-2"> Make Purchase </a>
-              <a routerlink = "/products" class="btn btn-light w-100 border mt-2"> Back to shop </a>
+              <a routerLink="/products" routerLinkActive="active" class=" btn btn-light w-100 border mt-2" routerLinkActive="active"> Back to shop </a>
+
               <a (click) = "clearcart()" class="btn btn-light w-100 border mt-2"> Clear All</a>
             </div>
           </div>

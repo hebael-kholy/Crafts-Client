@@ -10,47 +10,47 @@ export class ProductsService {
 
   getSalesProducts() {
     return this.myClient.get(
-      'https://localhost:7118/api/Products/Sale'
+      'https://craftsapp.azurewebsites.net/api/Products/Sale'
     );
   }
 
   getAllProducts() {
-    return this.myClient.get('https://localhost:7118/api/Products');
+    return this.myClient.get('https://craftsapp.azurewebsites.net/api/Products');
   }
 
   getProductsbyCategory(title:any){
-    return this.myClient.get(`https://localhost:7118/CategoryByTitle?title=${title}`)
+    return this.myClient.get(`https://craftsapp.azurewebsites.net/CategoryByTitle?title=${title}`)
   }
 
   getProductDetails(id: any) {
-    return this.myClient.get(`https://localhost:7118/api/Products/${id}`);
+    return this.myClient.get(`https://craftsapp.azurewebsites.net/api/Products/${id}`);
   }
 
   getproductsByCategory(id:any){
-    return this.myClient.get(`https://ecommerceiti-heba.onrender.com/category/${id}/product`);
+    return this.myClient.get(`https://craftsapp.azurewebsites.net/category/${id}/product`);
   }
 
   addtocart(data: CartItem) {
     return this.myClient.post(
-      `https://localhost:7118/api/CartItems`,
+      `https://craftsapp.azurewebsites.net/api/CartItems`,
       data
     );
   }
 
 addtoWishlist(WId:any,PId:any){
-  return this.myClient.post(`https://localhost:7118/WishListProduct/${WId}`,PId);
+  return this.myClient.post(`https://craftsapp.azurewebsites.net/WishListProduct/${WId}`,PId);
 }
 
 addReview(data:any){
-  return this.myClient.post(`https://localhost:7118/api/Reviews`,data)
+  return this.myClient.post(`https://craftsapp.azurewebsites.net/api/Reviews`,data)
 
 }
 
 getReview(id:any){
-  return this.myClient.get(`https://localhost:7118/api/Reviews/${id}`)
+  return this.myClient.get(`https://craftsapp.azurewebsites.net/api/Reviews/${id}`)
 }
 deleteReview(id:any){
-  return this.myClient.delete(`https://localhost:7118/api/Reviews?id=${id}`)
+  return this.myClient.delete(`https://craftsapp.azurewebsites.net/api/Reviews?id=${id}`)
 }
 
 }

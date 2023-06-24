@@ -125,6 +125,7 @@ export class CartComponent implements OnInit {
       quantity: this.value,
     };
     this.value = item.quantity;
+    console.log(updateditem);
     console.log(`this id for item ${this.itemId}`);
     console.log(`this id for user ${this.userId}`);
     this.myService
@@ -156,7 +157,10 @@ export class CartComponent implements OnInit {
     localStorage.setItem('cartitems', this.cartitems);
     Swal.fire('Your order has been Checkout', '', 'success');
     //this.clearcart();
-    this.getCartTotal();
+    //this.getCartTotal();
+    this.totalPrice=0;
+    this.totalAfterDiscount=0;
+    this.Tax=0;
   }
 
 apply(){
@@ -196,30 +200,4 @@ console.log(this.coupon_valueAdded)
 )
 }
 }
-//   getCouponByName(){}
 
-//   apply(){
-
-//     let coupon :Coupon = {
-//       CartId : this.cartId,
-//       couponId: 1,
-//     }
-// if (this.coupon_valueAdded === this.coupon_value)
-//     this.myService.applycoupon(coupon.CartId,coupon.couponId).subscribe(
-//         { next:(res:any)=>{
-//       console.log(res);
-//       Swal.fire('You got the Discount', '', 'success');
-//       this.getCartTotal();
-//         }})
-//         console.log(coupon.couponId);
-//         this.myService.getCoupon(coupon.couponId).subscribe(
-//         { next:(res:any)=>{
-//       console.log(res);
-//       this.coupon_discount = res.discount;
-//       this.coupon_value = res.name;
-
-//         },
-//       error:(err)=>{Swal.fire('Please Enter a valid Coupon', '', 'error');}
-//     })
-
-//   }
