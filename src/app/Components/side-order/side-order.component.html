@@ -5,12 +5,12 @@
     </div>
     <ul>
       <li routerLinkActive="active">
-        <span><i class="bi bi-gear-fill"></i></span
-        ><a class="nav-link rounded" routerLink="/profile/settings">Settings</a>
+        <span><i class="bi bi-gear-fill"></i></span><a class="nav-link rounded"
+          routerLink="/profile/settings">Settings</a>
       </li>
       <li routerLinkActive="active">
-        <span><i class="bi bi-cart-check-fill"></i></span
-        ><a class="nav-link rounded" routerLink="/profile/orders">My Orders</a>
+        <span><i class="bi bi-cart-check-fill"></i></span><a class="nav-link rounded" routerLink="/profile/orders">My
+          Orders</a>
       </li>
     </ul>
   </div>
@@ -21,7 +21,7 @@
       <div>
         <select (change)="filterByStatus($event)">
           <option value="0">Pending</option>
-          <option value="1">Success</option>
+          <option selected value="1">Success</option>
           <option value="2">Rejected</option>
         </select>
       </div>
@@ -70,11 +70,7 @@
         </div>
         <hr />
       </div>
-      <pagination-controls
-        *ngIf="orders"
-        (pageChange)="p = $event"
-        class="float-right"
-      ></pagination-controls>
+      <pagination-controls *ngIf="orders" (pageChange)="p = $event" class="float-right"></pagination-controls>
       <div class="emptyOrders" *ngIf="!orders">
         <img src="assets/empty_item.svg" />
         <div>No orders to display</div>

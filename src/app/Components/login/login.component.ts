@@ -67,11 +67,10 @@ export class LoginComponent implements OnInit {
         console.log('res', res);
         if (this.userServ.isUpdated === false) {
           //if true set all data with edited name, mail
-          if(res.user.gender == 0) {
-          localStorage.setItem('gender', "Male");
-          }
-          else{
-          localStorage.setItem('gender', "Female");
+          if (res.user.gender == 0) {
+            localStorage.setItem('gender', 'Male');
+          } else {
+            localStorage.setItem('gender', 'Female');
           }
           localStorage.setItem('token', res.token);
           localStorage.setItem('id', res.user.id);
@@ -99,7 +98,7 @@ export class LoginComponent implements OnInit {
         this.isLoading = false;
       }
     );
-      console.log(localStorage.getItem('cart'));
+    console.log(localStorage.getItem('cart'));
   }
 
   visible: boolean = true;

@@ -28,7 +28,6 @@ export class ProfileComponent implements OnInit {
   password: any;
   hide = true;
 
-
   form = new FormGroup({
     username: new FormControl('', [
       Validators.required,
@@ -36,9 +35,7 @@ export class ProfileComponent implements OnInit {
     ]),
     email: new FormControl('', [Validators.required, Validators.email]),
 
-
     password: new FormControl('', [Validators.minLength(3)]),
-
   });
 
   @Output() formEvent = new EventEmitter();
@@ -66,6 +63,13 @@ export class ProfileComponent implements OnInit {
     this.imagePath = localStorage.getItem('image');
     console.log(this.imagePath);
     this.gender = localStorage.getItem('gender');
+    console.log(this.gender);
+
+    if (this.gender === '1') {
+      this.gender = 'female';
+    } else if (this.gender === '0') {
+      this.gender = 'male';
+    }
 
     //get all users
     this.myService.getOneUser(this.idUser).subscribe({
@@ -94,7 +98,6 @@ export class ProfileComponent implements OnInit {
     this.isEditGender = false;
 
     this.isEditPassword = false;
-
   }
   EditGender() {
     this.isEditGender = true;
@@ -182,10 +185,8 @@ export class ProfileComponent implements OnInit {
       },
       error: (err) => {
         console.log(err);
-        var nameErr = `Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.users index: email_1 dup key: { email: "${
-          this.form.get('email')?.value
-        }" }`;
-        if (err.error.message == nameErr) {
+        var nameErr = `Email '${user.email}' is already taken.`;
+        if (err.error[0].description == nameErr) {
           this.isLoading = false;
           Swal.fire({
             icon: 'warning',
@@ -204,6 +205,5 @@ export class ProfileComponent implements OnInit {
         }
       },
     });
-
   }
 }
