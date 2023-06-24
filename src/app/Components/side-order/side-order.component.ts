@@ -37,6 +37,7 @@ export class SideOrderComponent implements OnInit {
       error(err) {
         console.log(err);
       },
+
     });
     //call functions get orders
     // this.getAccept();
@@ -45,20 +46,24 @@ export class SideOrderComponent implements OnInit {
     // this.isloading = true;
     // this.getReject();
     //end ngOnIt
+    //this.filterByStatus(event);
   }
 
   filterByStatus(e:any){
-    console.log(e.target.value);
     this.myService.getByStatus(this.idUser, e.target.value).subscribe({
       next:(res)=>{
+        console.log(e.target.value);
         this.isloading = false;
         this.orders = res;
         console.log(this.orders);
         // console.log(this.data);
       },
-      error:(err)=>{},
+      error:(err)=>{
+        console.log(err);
+      },
     });
   }
+
 
 
 

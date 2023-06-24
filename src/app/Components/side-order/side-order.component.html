@@ -56,26 +56,26 @@
         <div class="oneRow">
           <div class="rowOne">
             <div class="tableRow" *ngFor="let field of order.cartItems">
-              <div>{{ field.product.title }}</div>
-              <div>{{ field.quantitiy }}</div>
+              <div>{{ field.title }}</div>
+              <div>{{ field.quantity}}</div>
               <div>{{ field.price }}</div>
               <br />
             </div>
           </div>
           <div class="total">
             <div>{{ order.totalPrice }}</div>
-            <div>{{ order.creationDate.split("T")[0] }}</div>
+            <div>{{ order.createdAt.split("T")[0] }}</div>
             <div><i class="bi bi-check-circle accepted"></i></div>
           </div>
         </div>
         <hr />
       </div>
       <pagination-controls
-        *ngIf="acceptorders.data"
+        *ngIf="orders"
         (pageChange)="p = $event"
         class="float-right"
       ></pagination-controls>
-      <div class="emptyOrders" *ngIf="acceptorders.data.length == 0">
+      <div class="emptyOrders" *ngIf="!orders">
         <img src="assets/empty_item.svg" />
         <div>No orders to display</div>
       </div>
@@ -196,8 +196,8 @@
       </div>
     </div> -->
 
-    <div class="text-center" *ngIf="isloading">
+    <!-- <div class="text-center" *ngIf="isloading">
       <img src="assets/Spinner-1s-200px.svg" alt="Loading ..." />
-    </div>
+    </div> -->
   </div>
 </div>
