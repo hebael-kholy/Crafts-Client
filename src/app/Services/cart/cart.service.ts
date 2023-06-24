@@ -10,26 +10,26 @@ export class CartService {
   constructor(public myClient: HttpClient) {}
 
   getCartitems(id:any) {
-    return this.myClient.get(`https://localhost:7118/WithCartItems?id=${id}`);
+    return this.myClient.get(`https://craftsapp.azurewebsites.net/WithCartItems?id=${id}`);
   }
   removeitemfromcart(id:any){
-    return this.myClient.delete(`https://localhost:7118/api/CartItems/${id}`);
+    return this.myClient.delete(`https://craftsapp.azurewebsites.net/api/CartItems/${id}`);
   }
   clearCart(id:any){
-    return this.myClient.delete(`https://localhost:7118/AllItems/${id}`);
+    return this.myClient.delete(`https://craftsapp.azurewebsites.net/AllItems/${id}`);
   }
   applycoupon(id:any,id2:any){
-    return this.myClient.get(`https://localhost:7118/Coupon?CartId=${id}&couponId=${id2}`)
+    return this.myClient.get(`https://craftsapp.azurewebsites.net/Coupon?CartId=${id}&couponId=${id2}`)
   }
   UpdateQuantity(id:any, data:any){
-    return this.myClient.put(`https://localhost:7118/api/CartItems/${id}`, data);
+    return this.myClient.put(`https://craftsapp.azurewebsites.net/api/CartItems/${id}`, data);
   }
 
   getCoupon(Name:any){
-    return this.myClient.get(`https://localhost:7118/api/Coupons/${Name}`)
+    return this.myClient.get(`https://craftsapp.azurewebsites.net/api/Coupons/${Name}`)
   }
   createOrder(data:any){
-    return this.myClient.post(`https://localhost:7118/api/Orders`,data);
+    return this.myClient.post(`https://craftsapp.azurewebsites.net/api/Orders`,data);
   }
 
   }
