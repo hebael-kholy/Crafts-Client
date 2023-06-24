@@ -78,9 +78,9 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('name', res.user.userName);
           localStorage.setItem('mail', res.user.email);
           localStorage.setItem('password', res.user.password);
-          // localStorage.setItem('gender', res.user.gender);
+          localStorage.setItem('gender', res.user.gender);
           localStorage.setItem('image', res.user.image);
-          localStorage.setItem('cart', res.user.cart);  
+          localStorage.setItem('cart', res.user.cart);
           localStorage.setItem('user', JSON.stringify(res));
         } else {
           //if false, dont set the name, mail with new ones, let the old data
@@ -90,14 +90,16 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('gender', res.gender);
         }
         Swal.fire('Thank You...', 'You Login Successfully', 'success');
-        this.router.navigate(['/home']);
         this.isLoading = false;
+        window.location.reload();
+        window.location.assign('/home');
       },
       (err) => {
         Swal.fire('Sorry....', 'Invalid Email or Password', 'error');
         this.isLoading = false;
       }
     );
+      console.log(localStorage.getItem('cart'));
   }
 
   visible: boolean = true;

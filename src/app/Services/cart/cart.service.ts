@@ -12,24 +12,24 @@ export class CartService {
   getCartitems(id:any) {
     return this.myClient.get(`https://localhost:7118/WithCartItems?id=${id}`);
   }
-
-  removeitemfromcart(id1:any,id2:any){
-    return this.myClient.delete(`https://ecommerceiti-heba.onrender.com/users/${id1}/cart/delete/${id2}`);
+  removeitemfromcart(id:any){
+    return this.myClient.delete(`https://localhost:7118/api/CartItems/${id}`);
   }
-
   clearCart(id:any){
-    return this.myClient.delete(`https://ecommerceiti-heba.onrender.com/users/${id}/cart/clear`);
+    return this.myClient.delete(`https://localhost:7118/AllItems/${id}`);
   }
-
+  applycoupon(id:any,id2:any){
+    return this.myClient.get(`https://localhost:7118/Coupon?CartId=${id}&couponId=${id2}`)
+  }
   UpdateQuantity(id:any, data:any){
     return this.myClient.put(`https://localhost:7118/api/CartItems/${id}`, data);
   }
 
-  createOrder(id1:any,id2:any,data:Order){
-    return this.myClient.post(`https://ecommerceiti-heba.onrender.com/order/${id1}/${id2}`,data);
+  getCoupon(Name:any){
+    return this.myClient.get(`https://localhost:7118/api/Coupons/${Name}`)
   }
-  applycoupon(id:any , data:any){
-    return this.myClient.put(`https://ecommerceiti-heba.onrender.com/users/${id}/cart/applycoupon`,data)
+  createOrder(data:any){
+    return this.myClient.post(`https://localhost:7118/api/Orders`,data);
   }
 
   }

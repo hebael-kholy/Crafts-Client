@@ -10,6 +10,7 @@ import { LoginService } from 'src/app/Services/auth/auth.service';
 import { CartService } from 'src/app/Services/cart/cart.service';
 import { WishlistService } from 'src/app/Services/wishlist/wishlist.service';
 import { UserService } from 'src/app/Services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -33,20 +34,23 @@ export class HeaderComponent implements OnInit {
     public cartService: CartService,
     public authService: LoginService,
     public wishlistService: WishlistService,
-    public userService: UserService
-  ) {}
+    public userService: UserService,
+    private router:Router
+  ) {
+  }
 
   ngOnInit(): void {
-    console.log("Hello")
     let user = localStorage.getItem('user');
+    let userParsed = user && JSON.parse(user).user;
+
     let userId = user && JSON.parse(user).user.id;
+    console.log(userParsed);
     this.cartService.getCartitems(userId).subscribe({
       next: (res: any) => {
         this.items = res;
         this.totalitems = this.items.cartItems.length;
         console.log(this.totalitems);
         localStorage.setItem('cartitems', this.totalitems.toString());
-        console.log("hala")
       },
       error: (err) => {
         console.log(err);

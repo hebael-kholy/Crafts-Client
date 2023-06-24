@@ -23,10 +23,17 @@ export class SideOrderComponent implements OnInit {
   p:any;
   p2:any;
   p3:any;
-  constructor(myActivated: ActivatedRoute, public myService: UserService) {}
+  pp:any;
+  constructor(myActivated: ActivatedRoute, public myService: UserService) {
+
+
+  }
   ngOnInit(): void {
     this.idUser = localStorage.getItem('id');
     this.imagePath = localStorage.getItem('image');
+
+    this.pp =localStorage.getItem('orderCartItemss');
+     console.log(JSON.parse(this.pp));
 
     this.myService.getOneUser(this.idUser).subscribe({
       next: (res) => {

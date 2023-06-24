@@ -21,54 +21,56 @@ export class AllProductsComponent implements OnInit {
   isLoading = false;
   isLoadingg = false;
 
-
-
-
   constructor(public myService: ProductsService, public route: ActivatedRoute) {}
-
 
   ngOnInit(): void {
     this.getProducts();
-
-
-
   }
 
   getProducts() {
     this.isLoading = true;
     this.myService.getAllProducts().subscribe((data: any) => {
-      console.log(data);
       this.isLoading = false;
       this.products = data;
       this.filterCategory = data;
+      console.log(this.filterCategory)
       this.totalRecords = data.length;
     })
   }
-  filter(category:string){
-    this.filterCategory = this.products.filter((a:any)=>{
-      console.log(a);
-      console.log(a.category.name);
-      if(a.category.name === category || category == ''){
-        return a;
-      }
-    })
 
-
-
+  filter(category:any){
+    console.log(category);
+    console.log(typeof category);
+    if(category==''){
+      this.getProducts();
+    }
+    this.myService.getProductsbyCategory(category).subscribe({
+      next:(res)=>{
+        console.log(res);
+        this.filterCategory=res;
+        console.log(this.filterCategory);
+        this.filterCategory = this.products.filter((a:any)=>{
+          console.log(a);             //product
+          console.log(a.categoryName);//categoryName
+          if(a.categoryName === category || category == ''){
+            return a;
+          }
+        })
+        console.log(this.filterCategory.products);
+      },error:(err)=>{
+        console.log(err);
+      }})
   }
+
   onclick(){
-
     console.log("hala");
-     this.isLoadingg= true;
-
+    this.isLoadingg= true;
   }
 
   clickk(){
-
     console.log("hala");
     setInterval(()=>{
-
     },1000)
-     this.isLoadingg= false;
+    this.isLoadingg= false;
   }
 }

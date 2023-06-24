@@ -27,11 +27,11 @@
                 class="fa fa-heart-o" aria-hidden="true"></i> </span>
             <span *ngIf="addedtowishlist" class="heart"> <fa-icon [icon]="icon2"></fa-icon></span>
           </div>
-          <!-- <div class="mt-2 pr-3 content">
+          <div class="mt-2 pr-3 content">
             <p>{{productt.description}}</p>
             <span class="fw-bold">Category : </span><span
-              class="text-capitalize my-1">{{productt.category.name}}</span>
-          </div> -->
+              class="text-capitalize my-1">{{productt.categoryName}}</span>
+          </div>
           <div class="fw-bold mt-2">
             <h3>{{productt.price}} EGP</h3>
           </div>
@@ -65,33 +65,32 @@
           </div>
 <br><br>
           <div mt-3>
-
             <h4>Comments</h4>
-            
-            <div *ngFor="let commentt of comments">
+
+            <div *ngFor="let commentt of commentss">
               <div class="card mb-3">
                 <div class="card-body">
                   <div class="d-flex flex-start">
                     <img class="rounded-circle shadow-1-strong me-3"
-                      src={{commentt.user.image}} alt="user" width="40"
+                      src={{commentt.image}} alt="user" width="40"
                       height="45" />
                     <div class="w-100">
                       <div class="d-flex justify-content-between align-items-center mb-3">
                         <h6 class="text-primary fw-bold mb-0">
-                          {{commentt.user.name}}
-                          <span class="text-dark ms-2">{{commentt.title}}</span>
+                          {{commentt.userName}}
+                          <span class="text-dark ms-2">{{commentt.content}}</span>
                         </h6>
 
-                        <p *ngIf = "image == commentt.user.image"class="mb-0">2 seconds ago</p>
-                        <p *ngIf = "image != commentt.user.image"class="mb-0">2 days ago</p>
+                        <p *ngIf = "image == commentt.image"class="mb-0">{{time}}</p>
+                        <p *ngIf = "image != commentt.image"class="mb-0">2 days ago</p>
                       </div>
                       <div class="d-flex justify-content-between align-items-center">
                         <p class="small mb-0" style="color: #aaa;">
-                          <a *ngIf ="image === commentt.user.image" (click) = "DeleteReview(commentt)" style="cursor: pointer;" class="link-grey">Remove</a> •
+                          <a *ngIf ="image === commentt.image" (click) = "DeleteReview(commentt)" style="cursor: pointer;" class="link-grey">Remove</a> •
                           <a  class="link-grey">Reply</a> •
                           <a  class="link-grey">Translate</a>
 
-                         
+
                         </p>
 
                       </div>
@@ -110,8 +109,8 @@
                       <i class="bi bi-arrow-right-circle-fill"></i>
                     </button>
                 </span>
-           
-          
+
+
           </div>
 
         </div>

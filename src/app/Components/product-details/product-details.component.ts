@@ -8,24 +8,22 @@ import {
   faHeart,
   faStar,
 } from '@fortawesome/free-solid-svg-icons';
+import { CartService } from 'src/app/Services/cart/cart.service';
 import { ProductsService } from 'src/app/Services/products/products.service';
 import { WishlistService } from 'src/app/Services/wishlist/wishlist.service';
 
-
-export class Review {
-  title!:string;
-  rating!:number;
-  user!:number;
-  productid!:number;
-
-}
-
 export class CartItem {
-  CartId!:number; 
+  CartId!:number;
   productId!:number;
 }
 export class WihlistItem {
   productId!: number;
+}
+export class Review {
+  content!: string;
+  productId!: number;
+  userId!: string;
+
 }
 
 @Component({
@@ -45,7 +43,7 @@ export class ProductDetailsComponent implements OnInit {
   addedtowishlist: boolean = false;
   user = localStorage.getItem('user');
 
-  userId = this.user && JSON.parse(this.user).user.id;//
+  userId = this.user && JSON.parse(this.user).user.id;
 
   cartitems: any;
   wishlistitems: any;
@@ -60,56 +58,64 @@ export class ProductDetailsComponent implements OnInit {
   Rid:any;
  Rimg:any;
  isloading = true;
-
+ cartId:any;
   wishListResponse:any;
   WishListID:any;
-
- cart = localStorage.getItem('cart');
- cartId = this.cart && JSON.parse(this.cart).id;
-
+  time:any;
 
   constructor(
     public route: ActivatedRoute,
     public myService: ProductsService,
     public wishlistService: WishlistService,
+    public cartService:CartService,
     private changeDetector: ChangeDetectorRef
   ) {
-    console.log(route);
-
     this.ID = route.snapshot.params['id'];
     console.log(this.ID);
   }
 
   ngOnInit(): void {
-
+    console.log(this.userId);
     this.isloading = true;
+    console.log(this.ID);
+    this.time = new Date().toLocaleString();
+        this.myService.getReview(this.ID).subscribe((res)=>{
+          console.log(res);
+          this.commentss = res;
+        })
     this.myService.getProductDetails(this.ID).subscribe({
       next: (res) => {
-
         console.log(this.ID);
         console.log(res);
         this.isloading = false
         this.product = res;
         this.productt = this.product;
-        this.categoryId = this.product.data.category._id;
+        this.categoryId=this.product.categoryId;
         console.log(this.categoryId);
-        this.myService.getReview(this.ID).subscribe((res)=>{
-          console.log(res);
-          this.commentss = res;
-          this.comments=this.commentss.data;
 
-        })
+        // this.myService.getReview(this.ID).subscribe((res)=>{
+        //   console.log(res);
+        //   this.commentss = res;
+        //   this.comments=this.commentss.data;
+        // })
       },
       error(err) {
         console.log(err);
       },
     });
+    this.cartService.getCartitems(this.userId).subscribe({
+      next:(res:any)=>{
+      console.log(res);
+      this.cartId=res.id;
+      console.log(this.cartId)
 
+    },error(err){
+      console.log(err);
+    }})
     this.wishlistService.getUserWishList(this.userId).subscribe({
       next:(res)=>{
       console.log(res);
       this.wishListResponse=res;
-     // console.log(this.wishListResponse.id);
       this.WishListID=this.wishListResponse.id;
     },error(err){
       console.log(err);
@@ -122,6 +128,7 @@ export class ProductDetailsComponent implements OnInit {
     this.username = localStorage.getItem('name');
     this.changeDetector.detectChanges();
   }
+
 
   add() {
     console.log(this.product);
@@ -136,10 +143,13 @@ export class ProductDetailsComponent implements OnInit {
     console.log(typeof cartitem);
     console.log(cartitem);
     this.myService.addtocart(cartitem).subscribe((res: any) => {
+      console.log(res);
       this.cartitems = Number(localStorage.getItem('cartitems'));
       localStorage.setItem('cartitems', this.cartitems + 1);
     });
   }
+
+
 
   AddToWishlist() {
     console.log(this.product);
@@ -152,10 +162,6 @@ export class ProductDetailsComponent implements OnInit {
     let wishlistitem: any = {
       productId: this.ID,
     };
-    // let updateditem: any = {
-    //   quantity: this.value,
-    // };
-    //wishlistitem is productId
     console.log(typeof wishlistitem);
     console.log(wishlistitem);
     console.log(this.ID);//product id
@@ -174,40 +180,36 @@ export class ProductDetailsComponent implements OnInit {
 
   AddReview(){
     let review :Review ={
-      title:this.comment,
-      rating:5,
-      user:this.userId,
-      productid:this.ID,
-
+      content :this.comment,
+      productId:this.ID,
+      userId :this.userId,
     }
     console.log(this.ID)
     this.myService.addReview(review).subscribe((res)=>{
       console.log(res);
-      this.Reviewcreated = res;
-      this.Rid= this.Reviewcreated.data._id;
-      console.log(this.Rid);
-      this.comments.push(review);
-      this.comment = "";
+      // this.Reviewcreated = res;
+      // this.Rid= this.Reviewcreated.data._id;
+      // console.log(this.Rid);
+      // this.comments.push(review);
+      // this.comment = "";
       this.myService.getReview(this.ID).subscribe((res)=>{
         console.log(res);
         this.commentss = res;
-        this.comments=this.commentss.data;
       })
     })
-
-
   }
+
   DeleteReview(review:any){
 
-    if(review._id){
-    this.reviewId = review._id;}
-    else{
-      this.reviewId = this.Rid;
-    }
-    console.log(this.reviewId)
-    this.myService.deleteReview(this.reviewId).subscribe((res)=>{
+    // if(review._id){
+    // this.reviewId = review._id;}
+    // else{
+    //   this.reviewId = this.Rid;
+    // }
+    // console.log(this.reviewId)
+    this.myService.deleteReview(review.id).subscribe((res)=>{
       console.log(res);
-      this.comments.splice(this.comments.indexOf(review), 1);
+      this.commentss.splice(this.commentss.indexOf(review), 1);
   })
 }
 

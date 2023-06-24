@@ -12,16 +12,15 @@ import {
   ProductDetailsComponent,
 } from '../product-details/product-details.component';
 
-
-
-
 export class Coupon{
-  coupon!: string;
+  CartId!:number;
+  couponId!:number;
+
 }
 
 export class Order {
-  shippingPrice!: number;
-  taxPrice!: number;
+  userId!: string;
+  cartId!: number;
 }
 @Component({
   selector: 'app-cart',
@@ -40,14 +39,16 @@ export class CartComponent implements OnInit {
   value: any;
   cartId: any;
   cartitems: any;
-
+  coupon_discount:number = 0;
   isloading = true;
   coupon_value = "";
-  Discountt:number =0;
+  coupon_valueAdded = "";
   totalAfterDiscount:number = 0;
   newdisc:any;
   user = localStorage.getItem('user');
   userId = this.user && JSON.parse(this.user).user.id;
+  Tax:any;
+  response:any;
 
   constructor(public route: ActivatedRoute, public myService: CartService ,public wishlistService : WishlistService) {}
   ngOnInit(): void {
@@ -56,14 +57,20 @@ export class CartComponent implements OnInit {
         console.log(res);
         this.isloading = false;
         this.data2 = res;
+        this.response =res;
+        localStorage.setItem('orderCartItemss',JSON.stringify(this.response));
+
         this.items = res.cartItems;
+        localStorage.setItem('orderCartItems',JSON.stringify(res.cartItems));
+
         console.log(this.items);
         this.cartId = res.id;
         console.log(`this is cart id ${this.cartId}`);
-        localStorage.setItem('cartId', this.cartId);  
-        localStorage.setItem('cart', JSON.stringify(res));  
+        localStorage.setItem('cartId', this.cartId);
+        localStorage.setItem('cart', JSON.stringify(res));
 
         this.totalPrice = res.totalPrice;
+        this.Tax=this.totalPrice*0.1;
         this.totalAfterDiscount = this.totalPrice;
         this.newdisc = 0;
         console.log(this.totalPrice);
@@ -80,30 +87,16 @@ export class CartComponent implements OnInit {
     this.myService.getCartitems(this.userId).subscribe((res: any) => {
       console.log(res);
       this.totalPrice = res.totalPrice;
-      //console.log(this.coupon_value);
- if(this.coupon_value === ""
- ){
-  this.totalAfterDiscount = this.totalPrice;
-
-  console.log("hala");
- }
-     else{ this.totalAfterDiscount = res.data.totalAfterDiscount;
-      this.newdisc = localStorage.getItem('disc');
-    console.log("not")}
-      this.Discountt = res.discount;
-
-      console.log(this.totalAfterDiscount);
-      console.log(this.Discountt);
-
+      this.totalAfterDiscount = res.totalPriceAfterDiscount;
     });
   }
 
   removeitem(item: any) {
-    this.itemId = item._id;
+    this.itemId = item.id;
     console.log(`this id for item ${this.itemId}`);
     console.log(`this id for user ${this.userId}`);
     this.myService
-      .removeitemfromcart(this.userId, this.itemId)
+      .removeitemfromcart(this.itemId)
       .subscribe((res) => {
         this.items.splice(this.items.indexOf(item), 1);
         this.totalPrice = this.data2.totalCarPrice;
@@ -115,13 +108,14 @@ export class CartComponent implements OnInit {
   }
 
   clearcart() {
-    console.log(`this id for user ${this.userId}`);
-    this.myService.clearCart(this.userId).subscribe((res) => {
+    console.log(`this id for user ${this.cartId}`);
+    this.myService.clearCart(this.cartId).subscribe((res) => {
       console.log(res);
       this.items = [];
       this.cartitems = localStorage.getItem('cartitems');
       this.cartitems = 0;
       localStorage.setItem('cartitems', this.cartitems);
+      this.getCartTotal();
     });
   }
 
@@ -137,25 +131,22 @@ export class CartComponent implements OnInit {
       .UpdateQuantity(this.itemId, updateditem)
       .subscribe((res) => {
         console.log(res);
-
         this.getCartTotal();
-
-
       });
   }
+
 
   AddOrder() {
     console.log(`this is userid ${this.userId}`);
 
     let order: Order = {
-      shippingPrice: 0,
-      taxPrice: 14,
+      userId: this.userId,
+      cartId:  this.cartId,
     };
-    console.log(typeof order);
     console.log(order);
 
     this.myService
-      .createOrder(this.userId, this.cartId, order)
+      .createOrder(order)
       .subscribe((res) => {
         console.log(res);
       });
@@ -164,32 +155,71 @@ export class CartComponent implements OnInit {
     this.cartitems = 0;
     localStorage.setItem('cartitems', this.cartitems);
     Swal.fire('Your order has been Checkout', '', 'success');
+    //this.clearcart();
+    this.getCartTotal();
   }
 
-  apply(){
+apply(){
 
-    let coupon :Coupon = {
-      coupon:this.coupon_value,
-    }
-    console.log(this.coupon_value)
-    this.myService.applycoupon(this.userId,coupon).subscribe(
+console.log(this.coupon_valueAdded);
+if(this.coupon_valueAdded=="")
+{
+  Swal.fire('Please Enter a valid Coupon', '', 'error');
+  return;
+}
+console.log(this.coupon_valueAdded)
+    this.myService.getCoupon(this.coupon_valueAdded).subscribe({next:(res:any)=>{console.log(res);
+      let coupon :Coupon = {
+        CartId : this.cartId,
+        couponId:res.id,
+      }
+      this.myService.applycoupon(coupon.CartId,coupon.couponId).subscribe(
         { next:(res:any)=>{
       console.log(res);
-      this.Discountt = res.discount;
-      localStorage.setItem('disc', this.Discountt.toString())
-      console.log(this.Discountt);
-      this.totalAfterDiscount = res.data.totalAfterDiscount;
-      console.log(this.Discountt);
       Swal.fire('You got the Discount', '', 'success');
       this.getCartTotal();
-        },
-        error:(err)=>{Swal.fire('Please Enter a valid Coupon', '', 'error');}
+        }})
 
-    })
+      console.log(coupon.couponId);
+      this.myService.getCoupon(coupon.couponId).subscribe(
+      { next:(res:any)=>{
+      console.log(res);
+      this.coupon_discount = res.discount;
+      this.coupon_value = res.name;
+    },
+    /////
+
+  })},error:(err)=>{
+    Swal.fire('Please Enter a valid Coupon', '', 'error');
   }
-
-
-
-
-
 }
+)
+}
+}
+//   getCouponByName(){}
+
+//   apply(){
+
+//     let coupon :Coupon = {
+//       CartId : this.cartId,
+//       couponId: 1,
+//     }
+// if (this.coupon_valueAdded === this.coupon_value)
+//     this.myService.applycoupon(coupon.CartId,coupon.couponId).subscribe(
+//         { next:(res:any)=>{
+//       console.log(res);
+//       Swal.fire('You got the Discount', '', 'success');
+//       this.getCartTotal();
+//         }})
+//         console.log(coupon.couponId);
+//         this.myService.getCoupon(coupon.couponId).subscribe(
+//         { next:(res:any)=>{
+//       console.log(res);
+//       this.coupon_discount = res.discount;
+//       this.coupon_value = res.name;
+
+//         },
+//       error:(err)=>{Swal.fire('Please Enter a valid Coupon', '', 'error');}
+//     })
+
+//   }
