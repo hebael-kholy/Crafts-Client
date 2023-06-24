@@ -6,45 +6,40 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-side-order',
   templateUrl: './side-order.component.html',
-  styleUrls: ['./side-order.component.css']
+  styleUrls: ['./side-order.component.css'],
 })
 export class SideOrderComponent implements OnInit {
   imagePath: any;
-  idUser:any;
-  user:any;
-  orders:any;
-  acceptorders:any;
-  pendingOrders:any;
-  rejectOrders:any;
+  idUser: any;
+  user: any;
+  orders: any;
+  acceptorders: any;
+  pendingOrders: any;
+  rejectOrders: any;
   status = 1;
-  title :any;
+  title: any;
   isloading = true;
   deleteLoading = false;
-  p:any;
-  p2:any;
-  p3:any;
-  pp:any;
-  constructor(myActivated: ActivatedRoute, public myService: UserService) {
-
-
-  }
+  p: any;
+  p2: any;
+  p3: any;
+  pp: any;
+  constructor(myActivated: ActivatedRoute, public myService: UserService) {}
   ngOnInit(): void {
     this.idUser = localStorage.getItem('id');
     this.imagePath = localStorage.getItem('image');
 
-    this.pp =localStorage.getItem('orderCartItemss');
-     console.log(JSON.parse(this.pp));
+    this.pp = localStorage.getItem('orderCartItemss');
+    console.log(JSON.parse(this.pp));
 
     this.myService.getOneUser(this.idUser).subscribe({
       next: (res) => {
         this.user = res;
         console.log(this.user);
-
       },
       error(err) {
         console.log(err);
       },
-
     });
     //call functions get orders
     // this.getAccept();
@@ -56,24 +51,20 @@ export class SideOrderComponent implements OnInit {
     //this.filterByStatus(event);
   }
 
-  filterByStatus(e:any){
+  filterByStatus(e: any) {
     this.myService.getByStatus(this.idUser, e.target.value).subscribe({
-      next:(res)=>{
+      next: (res) => {
         console.log(e.target.value);
         this.isloading = false;
         this.orders = res;
         console.log(this.orders);
         // console.log(this.data);
       },
-      error:(err)=>{
+      error: (err) => {
         console.log(err);
       },
     });
   }
-
-
-
-
 
   // //function get accepting orders
   // getAccept(){
@@ -127,20 +118,20 @@ export class SideOrderComponent implements OnInit {
   // }
 
   // delete pending orders
-  deleteOrder(event:any,id:any){
+  deleteOrder(event: any, id: any) {
     this.deleteLoading = true;
-    this.myService.deleteOrder(id,'').subscribe(
-      { next:(req)=>{
+    this.myService.deleteOrder(id, '').subscribe({
+      next: (req) => {
         console.log(req);
         this.deleteLoading = false;
-       // this.getPending();
+        // this.getPending();
 
         Swal.fire('Deleted successfully ', 'Updated picture', 'success');
-       // this.getReject();
-
+        // this.getReject();
       },
-      error:(err)=>{console.log(err)}}
-      );
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 }
-
