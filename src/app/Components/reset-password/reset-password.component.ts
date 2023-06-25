@@ -18,14 +18,12 @@ export class ResetPasswordComponent implements OnInit {
   form!: FormGroup;
   ngOnInit(): void {
     this.form = this.fb.group({
-
       email: [
         '',
         [
           Validators.required,
           Validators.pattern(
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-
           ),
         ],
       ],
@@ -53,7 +51,7 @@ export class ResetPasswordComponent implements OnInit {
       (err) => {
         this.isLoading = false;
         console.log(err);
-        var nameErr = `User not found`;
+        var nameErr = `User Not Found`;
         if (err.error.message == nameErr) {
           this.isLoading = false;
           Swal.fire({
@@ -73,6 +71,5 @@ export class ResetPasswordComponent implements OnInit {
         }
       }
     );
-
   }
 }
