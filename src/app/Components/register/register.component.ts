@@ -41,9 +41,9 @@ export class RegisterComponent implements OnInit {
   user: User = new User();
   userForm!: FormGroup;
   gender = [
-    {id:0, value:'male'},
-    {id:1, value:'female'}
-  ]
+    { id: 0, value: 'male' },
+    { id: 1, value: 'female' },
+  ];
   constructor(
     private fb: FormBuilder,
     private apiservice: LoginService,
@@ -108,13 +108,13 @@ export class RegisterComponent implements OnInit {
           this.userForm.reset();
           this.successmsg = res.message;
           Swal.fire('Thank You...', 'You Sumitted Successfully', 'success');
-      console.log(typeof(res.user.id));
-  console.log(Date.now())
+          console.log(typeof res.user.id);
+          console.log(Date.now());
           console.log(res.user.id.toString());
           this.apiservice
             .CreatWishlist({
-              "createdAt": new Date().toJSON(),
-              "userId": res.user.id
+              createdAt: new Date().toJSON(),
+              userId: res.user.id,
             })
             .subscribe({
               next: (res) => {
@@ -124,9 +124,9 @@ export class RegisterComponent implements OnInit {
                 console.log(err.message);
               },
             });
-            this.apiservice
+          this.apiservice
             .CreatCart({
-              "userId": res.user.id
+              userId: res.user.id,
             })
             .subscribe({
               next: (res) => {
@@ -143,14 +143,31 @@ export class RegisterComponent implements OnInit {
         error: (err) => {
           console.log(err);
           this.isLoading = false;
-          var nameErr = `E11000 duplicate key error collection: test.users index: email_1 dup key: { email: "${
-            this.userForm.get('email')?.value
-          }" }`;
-          if (err.error.message == nameErr) {
+          var emailErr = `Email '${this.user.email}' is already taken.`;
+          var nameErr = `Username '${this.user.userName}' is already taken.`;
+          var passDigit = `Passwords must have at least one digit ('0'-'9').`;
+
+          console.log(this.user.userName);
+
+          if (err.error[0].description == emailErr) {
             this.isLoading = false;
             Swal.fire({
               icon: 'warning',
               title: 'Email Already Exists!!!',
+              showConfirmButton: true,
+            });
+          } else if (err.error[0].description == nameErr) {
+            this.isLoading = false;
+            Swal.fire({
+              icon: 'warning',
+              title: 'Name Already Exists!!!',
+              showConfirmButton: true,
+            });
+          } else if (err.error[0].description == passDigit) {
+            this.isLoading = false;
+            Swal.fire({
+              icon: 'warning',
+              title: passDigit,
               showConfirmButton: true,
             });
           } else {

@@ -185,8 +185,9 @@ export class ProfileComponent implements OnInit {
       },
       error: (err) => {
         console.log(err);
-        var nameErr = `Email '${user.email}' is already taken.`;
-        if (err.error[0].description == nameErr) {
+        var emailErr = `Email '${user.email}' is already taken.`;
+        var nameErr = `Name '${user.userName}' is already taken.`;
+        if (err.error[0].description == emailErr) {
           this.isLoading = false;
           Swal.fire({
             icon: 'warning',
@@ -195,6 +196,16 @@ export class ProfileComponent implements OnInit {
           });
           this.form.patchValue({
             email: localStorage.getItem('mail'),
+          });
+        } else if (err.error[0].description == nameErr) {
+          this.isLoading = false;
+          Swal.fire({
+            icon: 'warning',
+            title: 'Name Already Exists!!!',
+            showConfirmButton: true,
+          });
+          this.form.patchValue({
+            username: localStorage.getItem('name'),
           });
         } else {
           Swal.fire({
